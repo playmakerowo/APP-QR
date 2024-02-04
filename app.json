@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "qrapp",
+    "name": "Qr App",
     "slug": "qrapp",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -21,10 +21,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.playmakerowo.qrapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e963972d-43e7-4071-aa75-d0543c040d95"
+      }
     }
   }
 }
