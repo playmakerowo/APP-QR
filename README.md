@@ -13,7 +13,6 @@ Una app con funcion de lectura Qr, historial de escaneos previos y generacion de
 - Visual Studio 
 - React Native
 - Expo React
-- Chat GPT
 
 ## Instalación
 Si se desea probar el APK puede tirar advertencias desde la google play store si es el caso se requerira desactivar la revision de instlaciones de la misma 
