@@ -5,44 +5,34 @@ import React, { useState } from 'react';
 export default function QRCodeGenerator() {
     const [qrValue, setQRValue] = useState('');
     const [isActive, setIsActive] = useState(false);
+    const [tempInputValue, setTempInputValue] = useState('');
 
-    const generateQRCode = () => {
-        if (!qrValue) return;
-
+    const handleGenerateQRCode = () => {
         setIsActive(true);
+    };
+
+    const handleButtonPress = () => {
+        setTempInputValue(qrValue);
+        handleGenerateQRCode();
     };
 
     const handleInputChange = (text) => {
         setQRValue(text);
-
-        if (!text) {
-            setIsActive(false);
-        }
-    };
-
-    const resetQRCode = () => {
-        console.log('Resetting QR Code');
         setIsActive(false);
-        // setQRValue('');  // Puedes comentar o descomentar esta línea según tus necesidades.
     };
 
     return (
         <View style={styles.container}>
             <View style={styles.wrapper}>
                 <Text style={styles.title}>QR Maker</Text>
-                {isActive && (
-                    <View style={styles.qrCode}>
-                        <QRCode
-                            value={qrValue}
-                            size={200}
-                            color="black"
-                            backgroundColor="white"
-                        />
-                        <TouchableOpacity style={styles.buttonSecundary} onPress={resetQRCode}>
-                            <Text style={styles.buttonText}>Stop Generator</Text>
-                        </TouchableOpacity>
-                    </View>
+                <View  style={styles.qrCode}>
+                {tempInputValue && (
+                    <QRCode
+                        value={tempInputValue}
+                        size={230}
+                    />
                 )}
+                </View>
                 <View style={styles.inputButtonContainer}>
                     <TextInput
                         style={styles.input}
@@ -50,7 +40,7 @@ export default function QRCodeGenerator() {
                         value={qrValue}
                         onChangeText={handleInputChange}
                     />
-                    <TouchableOpacity style={styles.button} onPress={generateQRCode}>
+                    <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
                         <Text style={styles.buttonText}>Generate</Text>
                     </TouchableOpacity>
                 </View>
@@ -97,21 +87,25 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     input: {
-        fontSize: 18,
-        padding: 17,
+        fontSize: 15,
+        padding: 10,
         borderWidth: 1,
         borderColor: '#999',
         borderRadius: 5,
         marginBottom: 10,
+        maxWidth: '60%',
+        minWidth: '60%',
     },
-    button: {        
+    button: {
         backgroundColor: '#3498DB',
-        padding: 17,
+        padding: 11,
         alignItems: 'center',
         borderRadius: 5,
         marginBottom: 10,
         marginLeft: 5,
         borderWidth: 1,
+        maxWidth: '40%',
+        minWidth: '40%',
     },
     buttonText: {
         color: '#fff',

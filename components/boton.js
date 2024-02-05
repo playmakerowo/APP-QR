@@ -21,7 +21,8 @@ const styles = StyleSheet.create(
             paddingVertical: 10,
             borderRadius: 5,
             margin: 10,
-        },    buttonText: {
+        },    
+            buttonText: {
             color: 'white',
             fontSize: 16,
             fontWeight: 'bold',

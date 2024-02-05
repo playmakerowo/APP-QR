@@ -11,7 +11,6 @@ export default function App() {
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(true);
     const [scannedData, setScannedData] = useState({ type: null, data: null, date: null });
-    const [storedData, setStoredData] = useState([]);
     const [firstTime, setFirstTime] = useState(true);
 
     useEffect(() => {
@@ -96,23 +95,27 @@ export default function App() {
             );
         } else {
             return (
-                <View style={styles.scanTextContainer}>
-                    <Text style={styles.title}>
-                        {firstTime ? 'Press one button below to start the scan' : 'Code has been scanned!'}
-                    </Text>
-                    <Text style={styles.paragraph}>
-                        {firstTime ? 'Welcome! Press one button below to start scanning' : 'Data scanned: '}
-                    </Text>
-                    {isUrl(scannedData.data) ? (
-                        <TouchableOpacity onPress={() => handleLinkPress(scannedData.data)}>
-                            <Text style={[styles.link, { color: 'blue', textDecorationLine: 'underline' }]}>
-                                {scannedData.data}
-                            </Text>
-                        </TouchableOpacity>
-                    ) : (
-                        <Text>{scannedData.data}</Text>
-                    )}
-                </View>
+                <>
+                    <Text style={styles.title}>Welcome to the Scanner App!</Text>
+                    <Text style={styles.paragraph}>Scan a barcode or QR code to start your job.</Text>
+                    <View style={styles.scanTextContainer}>
+                        <Text style={styles.title}>
+                            {firstTime ? 'Press one button below to start the scan' : 'Code has been scanned!'}
+                        </Text>
+                        <Text style={styles.paragraph}>
+                            {firstTime ? 'Welcome! Press one button below to start scanning' : 'Data scanned: '}
+                        </Text>
+                        {isUrl(scannedData.data) ? (
+                            <TouchableOpacity onPress={() => handleLinkPress(scannedData.data)}>
+                                <Text style={[styles.link, { color: 'blue', textDecorationLine: 'underline' }]}>
+                                    {scannedData.data}
+                                </Text>
+                            </TouchableOpacity>
+                        ) : (
+                            <Text>{scannedData.data}</Text>
+                        )}
+                    </View>
+                </>
             );
         }
     };
@@ -137,15 +140,13 @@ export default function App() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Welcome to the Scanner App!</Text>
-            <Text style={styles.paragraph}>Scan a barcode or QR code to start your job.</Text>
             {renderCamera()}
             {scanned && <Boton
                 onPress={() => setScanned(false)}
                 disabled={scanned}
                 text='Open camera for a new scan'
             />}
-            {!scanned &&<Boton
+            {!scanned && <Boton
                 onPress={() => setScanned(true)}
                 disabled={scanned}
                 text='Close cam'
@@ -179,11 +180,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     cameraContainer: {
-        width: '90%',
-        aspectRatio: 1,
+        marginTop: '20%',
+        width: '100%',
+        aspectRatio: 0.7,
         overflow: 'hidden',
-        borderRadius: 10,
-        marginBottom: 40,
+        marginBottom: 20,
     },
     scanTextContainer: {
         width: '80%',
