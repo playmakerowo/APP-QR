@@ -7,7 +7,6 @@ import { lightTheme, darkTheme } from '../theme';
 export default function QRCodeGenerator() {
     const colorScheme = useColorScheme();
     const theme = colorScheme === 'dark' ? darkTheme : lightTheme;
-    console.log('Color scheme:', colorScheme); 
 
     const [qrValue, setQRValue] = useState('');
     const [isActive, setIsActive] = useState(false);
