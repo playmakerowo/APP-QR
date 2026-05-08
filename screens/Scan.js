@@ -5,8 +5,13 @@ import Boton from '../components/boton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ImagePicker from "expo-image-picker";
 import validUrl from 'valid-url';
+import { useColorScheme } from 'react-native';
+import { lightTheme, darkTheme } from '../theme';
 
 export default function App() {
+    const colorScheme = useColorScheme();
+    const theme = colorScheme === 'dark' ? darkTheme : lightTheme;
+
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(true);
     const [scannedData, setScannedData] = useState({ type: null, data: null, date: null });
@@ -81,23 +86,23 @@ export default function App() {
         } else {
             return (
                 <>
-                    <Text style={styles.title}>Welcome to the Scanner App!</Text>
-                    <Text style={styles.paragraph}>Scan a barcode or QR code to start your job.</Text>
-                    <View style={styles.scanTextContainer}>
-                        <Text style={styles.title}>
-                            {firstTime ? 'Press one button below to start the scan' : 'Code has been scanned!'}
+                    <Text style={[styles.title, { color: theme.text }]}>Welcome to the Scanner App!</Text>
+                    <Text style={[styles.paragraph, { color: theme.subtext }]}>Scan a QR code to start.</Text>
+                    <View style={[styles.scanTextContainer, { backgroundColor: theme.card }]}>
+                        <Text style={[styles.title, { color: theme.text }]}>
+                            {firstTime ? 'Welcome!' : 'Code has been scanned!'}
                         </Text>
-                        <Text style={styles.paragraph}>
-                            {firstTime ? 'Welcome! Press one button below to start scanning' : 'Data scanned: '}
+                        <Text style={[styles.paragraph, { color: theme.subtext }]}>
+                            {firstTime ? 'Press one button below to start scanning' : 'Data scanned: '}
                         </Text>
                         {isUrl(scannedData.data) ? (
                             <TouchableOpacity onPress={() => handleLinkPress(scannedData.data)}>
-                                <Text style={[styles.link]}>
+                                <Text style={[styles.link, { color: '#4A90D9' }]}>
                                     {scannedData.data}
                                 </Text>
                             </TouchableOpacity>
                         ) : (
-                            <Text>{scannedData.data}</Text>
+                            <Text style={{ color: theme.text }}>{scannedData.data}</Text>
                         )}
                     </View>
                 </>
@@ -105,12 +110,12 @@ export default function App() {
         }
     };
 
-    if (hasPermission === null) return <View />;
+    if (hasPermission === null) return <View style={{ backgroundColor: theme.background, flex: 1 }} />;
 
     if (hasPermission === false) {
         return (
-            <View style={styles.container}>
-                <Text style={styles.text}>Camera permission not granted</Text>
+            <View style={[styles.container, { backgroundColor: theme.background }]}>
+                <Text style={[styles.text, { color: theme.text }]}>Camera permission not granted</Text>
                 <Button
                     title="Grant Camera Permission"
                     onPress={async () => {
@@ -123,7 +128,7 @@ export default function App() {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: theme.background }]}>
             {renderCamera()}
             {scanned && <Boton onPress={() => setScanned(false)} disabled={scanned} text='Open camera for a new scan' />}
             {!scanned && <Boton onPress={() => setScanned(true)} disabled={scanned} text='Close cam' />}

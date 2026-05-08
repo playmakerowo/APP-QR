@@ -7,8 +7,13 @@ import * as Clipboard from 'expo-clipboard';
 import validUrl from 'valid-url';
 import { useFocusEffect } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useColorScheme } from 'react-native';
+import { lightTheme, darkTheme } from '../theme';
 
 const History = () => {
+    const colorScheme = useColorScheme();
+    const theme = colorScheme === 'dark' ? darkTheme : lightTheme;
+
     const [storedData, setStoredData] = useState([]);
     const [lastScanned, setLastScanned] = useState(null);
     const [searchText, setSearchText] = useState('');
@@ -135,14 +140,15 @@ const History = () => {
     };
 
     return (
-        <View style={styles.container}>
-            <View style={styles.buttonContainer}>
-                <Text style={styles.title}>Stored Data</Text>
-                <View style={styles.searchContainer}>
-                    <MaterialCommunityIcons name="magnify" size={22} color="gray" />
+        <View  style={[styles.container, { backgroundColor: theme.background }]}>
+            <View style={[styles.buttonContainer, { backgroundColor: theme.background }]}>
+                <Text style={[styles.title, { color: theme.text }]}>Stored Data</Text>
+                <View style={[styles.searchContainer, { backgroundColor: theme.card, borderColor: theme.border }]}>
+                    <MaterialCommunityIcons name="magnify" size={22} color={theme.subtext} />
                     <TextInput
-                        style={styles.searchInput}
+                        style={[styles.searchInput, { color: theme.text }]}
                         placeholder="Search History"
+                        placeholderTextColor={theme.subtext}
                         value={searchText}
                         onChangeText={(text) => setSearchText(text)}
                     />
@@ -153,12 +159,12 @@ const History = () => {
                 {filteredData.map(([key, data]) => {
                     const wifi = parseWifiQR(data.data);
                     return (
-                        <View key={key} style={styles.dataContainer}>
+                        <View key={key} style={[styles.dataContainer, { backgroundColor: theme.card, borderColor: theme.border }]}>
                             {wifi ? (
-                                <View style={styles.wifiContainer}>
-                                    <Text style={styles.wifiTitle}>📶 Red WiFi detectada</Text>
-                                    <Text>Red: <Text style={styles.bold}>{wifi.ssid}</Text></Text>
-                                    <Text>Contraseña: <Text style={styles.bold}>{wifi.password}</Text></Text>
+                                <View style={[styles.wifiContainer, { backgroundColor: theme.wifiCard }]}>
+                                    <Text style={[styles.wifiTitle, { color: theme.wifiText }]}>📶 Red WiFi detectada</Text>
+                                    <Text style={{ color: theme.text }}>Red: <Text style={styles.bold}>{wifi.ssid}</Text></Text>
+                                    <Text style={{ color: theme.text }}>Contraseña: <Text style={styles.bold}>{wifi.password}</Text></Text>
                                     <TouchableOpacity
                                         style={styles.copyButton}
                                         onPress={() => copyToClipboard(wifi.password)}
@@ -168,14 +174,14 @@ const History = () => {
                                 </View>
                             ) : isUrl(data.data) ? (
                                 <TouchableOpacity onPress={() => handleLinkPress(data.data)}>
-                                    <Text style={[styles.link, { color: 'blue', textDecorationLine: 'underline' }]}>
+                                    <Text style={[styles.link, { color: '#4A90D9', textDecorationLine: 'underline' }]}>
                                         {data.data}
                                     </Text>
                                 </TouchableOpacity>
                             ) : (
-                                <Text style={styles.dataValue}>{data.data}</Text>
+                                <Text style={[styles.dataValue, { color: theme.text }]}>{data.data}</Text>
                             )}
-                            <Text style={styles.dateValue}>{formatDateTime(data.date)}</Text>
+                            <Text style={[styles.dateValue, { color: theme.subtext }]}>{formatDateTime(data.date)}</Text>
                             {!wifi && (
                                 <TouchableOpacity
                                     style={styles.copyButton}

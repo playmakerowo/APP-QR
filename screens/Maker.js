@@ -1,8 +1,14 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import React, { useState } from 'react';
+import { useColorScheme } from 'react-native';
+import { lightTheme, darkTheme } from '../theme';
 
 export default function QRCodeGenerator() {
+    const colorScheme = useColorScheme();
+    const theme = colorScheme === 'dark' ? darkTheme : lightTheme;
+    console.log('Color scheme:', colorScheme); 
+
     const [qrValue, setQRValue] = useState('');
     const [isActive, setIsActive] = useState(false);
     const [tempInputValue, setTempInputValue] = useState('');
@@ -23,26 +29,36 @@ export default function QRCodeGenerator() {
 
     return (
         <KeyboardAvoidingView
-            style={{ flex: 1, width: '100%', backgroundColor: '#eee' }}
+            style={{ flex: 1, width: '100%', backgroundColor: theme.background }}
             behavior="padding"
             keyboardVerticalOffset={80}
         >
-            <View style={styles.container}>
-                <View style={styles.wrapper}>
-                    <Text style={styles.title}>QR Maker</Text>
+            <View style={[styles.container, { backgroundColor: theme.background }]}>
+                <View style={[styles.wrapper, { backgroundColor: theme.card }]}>
+                    <Text style={[styles.title, { color: theme.text }]}>QR Maker</Text>
                     <View style={styles.qrCode}>
                         {tempInputValue && (
-                            <QRCode value={tempInputValue} size={230} />
+                            <QRCode
+                                value={tempInputValue}
+                                size={230}
+                                color={theme.text}
+                                backgroundColor={theme.card}
+                            />
                         )}
                     </View>
                     <View style={styles.inputButtonContainer}>
                         <TextInput
-                            style={styles.input}
+                            style={[styles.input, {
+                                borderColor: theme.border,
+                                color: theme.text,
+                                backgroundColor: theme.card
+                            }]}
                             placeholder="Enter text or URL"
+                            placeholderTextColor={theme.subtext}
                             value={qrValue}
                             onChangeText={handleInputChange}
                         />
-                        <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
+                        <TouchableOpacity style={[styles.button, { backgroundColor: theme.button }]} onPress={handleButtonPress}>
                             <Text style={styles.buttonText}>Generate</Text>
                         </TouchableOpacity>
                     </View>
