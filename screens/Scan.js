@@ -44,6 +44,14 @@ export default function App() {
     };
 
     const pickImage = async () => {
+        const permissionResult =
+            await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+        if (!permissionResult.granted) {
+            alert("Permission to access gallery is required!");
+            return;
+        }
+        
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: false,
