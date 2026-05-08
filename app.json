@@ -18,11 +18,12 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "qr.reader.app",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.playmakerowo.qrapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"

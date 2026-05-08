@@ -17,7 +17,6 @@
     "@react-navigation/native": "^6.1.9",
     "babel-preset-expo": "~54.0.10",
     "expo": "^54",
-    "expo-barcode-scanner": "~13.0.1",
     "expo-camera": "~17.0.10",
     "expo-clipboard": "~8.0.8",
     "expo-image-picker": "~17.0.11",
