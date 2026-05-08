@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import React, { useState } from 'react';
 
@@ -22,30 +22,33 @@ export default function QRCodeGenerator() {
     };
 
     return (
-        <View style={styles.container}>
-            <View style={styles.wrapper}>
-                <Text style={styles.title}>QR Maker</Text>
-                <View  style={styles.qrCode}>
-                {tempInputValue && (
-                    <QRCode
-                        value={tempInputValue}
-                        size={230}
-                    />
-                )}
-                </View>
-                <View style={styles.inputButtonContainer}>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Enter text or URL"
-                        value={qrValue}
-                        onChangeText={handleInputChange}
-                    />
-                    <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
-                        <Text style={styles.buttonText}>Generate</Text>
-                    </TouchableOpacity>
+        <KeyboardAvoidingView
+            style={{ flex: 1, width: '100%', backgroundColor: '#eee' }}
+            behavior="padding"
+            keyboardVerticalOffset={80}
+        >
+            <View style={styles.container}>
+                <View style={styles.wrapper}>
+                    <Text style={styles.title}>QR Maker</Text>
+                    <View style={styles.qrCode}>
+                        {tempInputValue && (
+                            <QRCode value={tempInputValue} size={230} />
+                        )}
+                    </View>
+                    <View style={styles.inputButtonContainer}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Enter text or URL"
+                            value={qrValue}
+                            onChangeText={handleInputChange}
+                        />
+                        <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
+                            <Text style={styles.buttonText}>Generate</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
-        </View>
+        </KeyboardAvoidingView>
     );
 }
 
@@ -55,11 +58,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#eee',
+        paddingHorizontal: '5%',
+        width: '100%',
     },
     inputButtonContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 10, // Puedes ajustar este valor según sea necesario
     },
     wrapper: {
         backgroundColor: '#fff',
@@ -69,11 +73,8 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 10 },
         shadowOpacity: 1,
         shadowRadius: 30,
-        minWidth: '90%',
-        maxWidth: '90%',
-        minHeight: '85%',
-        maxHeight: '85%',
-        justifyContent: 'space-between', // Añadido para que los elementos estén en la parte inferior
+        width: '100%',
+        justifyContent: 'center',
     },
     title: {
         fontSize: 35,
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: '#fff',
-        fontSize: 18,
+        fontSize: 15,
     },
     qrCode: {
         alignItems: 'center',

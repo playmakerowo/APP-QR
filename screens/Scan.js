@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Button, Linking } from 'react-native';
-import { BarCodeScanner } from 'expo-barcode-scanner';
-import { Camera } from 'expo-camera';
+import { CameraView, Camera } from 'expo-camera';
 import Boton from '../components/boton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ImagePicker from "expo-image-picker";
@@ -15,7 +14,7 @@ export default function App() {
 
     useEffect(() => {
         (async () => {
-            const { status } = await BarCodeScanner.requestPermissionsAsync();
+            const { status } = await Camera.requestCameraPermissionsAsync();
             setHasPermission(status === 'granted');
         })();
     }, []);
@@ -25,39 +24,30 @@ export default function App() {
         setFirstTime(false);
         setScannedData({ type, data });
         const key = `QR-APP-${data}`;
-
         try {
             const currentDate = new Date();
             await AsyncStorage.setItem(key, JSON.stringify({ data, date: currentDate }));
-            console.log('Item saved with key:', key);
         } catch (error) {
             console.error('Error storing data in AsyncStorage:', error);
         }
     };
 
-    const isUrl = (url) => {
-        return validUrl.isUri(url);
-    };
+    const isUrl = (url) => validUrl.isUri(url);
 
     const handleLinkPress = (url) => {
-        if (isUrl(url)) {
-            Linking.openURL(url);
-        } else {
-            console.log('Not a valid URL:', url);
-        }
+        if (isUrl(url)) Linking.openURL(url);
     };
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: false,
-            aspect: [4, 3],
             quality: 1,
         });
 
-        if (result && result.assets[0].uri) {
+        if (result && result.assets?.[0]?.uri) {
             try {
-                const scannedResults = await BarCodeScanner.scanFromURLAsync(
+                const scannedResults = await Camera.scanFromURLAsync(
                     result.assets[0].uri
                 );
 
@@ -68,13 +58,7 @@ export default function App() {
 
                 const key = `QR-APP-${dataNeeded}`;
                 const currentDate = new Date();
-
-                try {
-                    await AsyncStorage.setItem(key, JSON.stringify({ data: dataNeeded, date: currentDate }));
-                    console.log('Item saved with key:', key);
-                } catch (error) {
-                    console.error('Error storing data in AsyncStorage:', error);
-                }
+                await AsyncStorage.setItem(key, JSON.stringify({ data: dataNeeded, date: currentDate }));
 
             } catch (error) {
                 setScannedData({ type: null, data: "No QR Code Found" });
@@ -87,8 +71,9 @@ export default function App() {
         if (!scanned) {
             return (
                 <View style={styles.cameraContainer}>
-                    <BarCodeScanner
-                        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+                    <CameraView
+                        onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
+                        barcodeScannerSettings={{ barcodeTypes: ['qr', 'pdf417'] }}
                         style={styles.camera}
                     />
                 </View>
@@ -107,7 +92,7 @@ export default function App() {
                         </Text>
                         {isUrl(scannedData.data) ? (
                             <TouchableOpacity onPress={() => handleLinkPress(scannedData.data)}>
-                                <Text style={[styles.link, { color: 'blue', textDecorationLine: 'underline' }]}>
+                                <Text style={[styles.link]}>
                                     {scannedData.data}
                                 </Text>
                             </TouchableOpacity>
@@ -120,20 +105,19 @@ export default function App() {
         }
     };
 
-    if (hasPermission === null) {
-        return <View />;
-    }
-
-    const requestCameraPermission = async () => {
-        const { status } = await Camera.requestPermissionsAsync();
-        setHasPermission(status === 'granted');
-    };
+    if (hasPermission === null) return <View />;
 
     if (hasPermission === false) {
         return (
             <View style={styles.container}>
                 <Text style={styles.text}>Camera permission not granted</Text>
-                <Button title="Grant Camera Permission" onPress={() => requestCameraPermission()} />
+                <Button
+                    title="Grant Camera Permission"
+                    onPress={async () => {
+                        const { status } = await Camera.requestCameraPermissionsAsync();
+                        setHasPermission(status === 'granted');
+                    }}
+                />
             </View>
         );
     }
@@ -141,69 +125,20 @@ export default function App() {
     return (
         <View style={styles.container}>
             {renderCamera()}
-            {scanned && <Boton
-                onPress={() => setScanned(false)}
-                disabled={scanned}
-                text='Open camera for a new scan'
-            />}
-            {!scanned && <Boton
-                onPress={() => setScanned(true)}
-                disabled={scanned}
-                text='Close cam'
-            />}
+            {scanned && <Boton onPress={() => setScanned(false)} disabled={scanned} text='Open camera for a new scan' />}
+            {!scanned && <Boton onPress={() => setScanned(true)} disabled={scanned} text='Close cam' />}
             {scanned && <Button onPress={pickImage} title='Select a code from gallery' />}
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#ECECEC'
-    },
-    appTitle: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        marginBottom: 10,
-    },
-    title: {
-        fontSize: 25,
-        fontWeight: 'bold',
-        marginBottom: 20,
-        textAlign: 'center',
-    },
-    paragraph: {
-        fontSize: 16,
-        marginBottom: 40,
-        textAlign: 'center',
-    },
-    cameraContainer: {
-        marginTop: '20%',
-        width: '100%',
-        aspectRatio: 0.7,
-        overflow: 'hidden',
-        marginBottom: 20,
-    },
-    scanTextContainer: {
-        width: '80%',
-        aspectRatio: 1,
-        overflow: 'hidden',
-        borderRadius: 10,
-        marginBottom: 40,
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-    },
-    camera: {
-        flex: 1,
-    },
-    text: {
-        marginBottom: 20,
-    },
-    link: {
-        color: 'blue',
-        textDecorationLine: 'underline',
-    },
+    container: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#ECECEC' },
+    title: { fontSize: 25, fontWeight: 'bold', marginBottom: 20, textAlign: 'center' },
+    paragraph: { fontSize: 16, marginBottom: 40, textAlign: 'center' },
+    cameraContainer: { marginTop: '20%', width: '100%', aspectRatio: 0.7, overflow: 'hidden', marginBottom: 20 },
+    scanTextContainer: { width: '80%', aspectRatio: 1, overflow: 'hidden', borderRadius: 10, marginBottom: 40, alignItems: 'center', justifyContent: 'center' },
+    camera: { flex: 1 },
+    text: { marginBottom: 20 },
+    link: { color: 'blue', textDecorationLine: 'underline' },
 });

@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 5,
-    width: '48%',
+    width: '100%',
     justifyContent: 'center',
   },
   buttonText: {
