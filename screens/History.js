@@ -65,7 +65,7 @@ const History = () => {
         if (data) {
             await Clipboard.setStringAsync(data);
             if (Platform.OS === 'android') {
-                ToastAndroid.show('Text copied to clipboard!', ToastAndroid.SHORT);
+                ToastAndroid.show('Copied!', ToastAndroid.SHORT);
             }
             setCopied(true);
         }

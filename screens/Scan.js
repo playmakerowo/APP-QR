@@ -7,6 +7,9 @@ import * as ImagePicker from "expo-image-picker";
 import validUrl from 'valid-url';
 import { useColorScheme } from 'react-native';
 import { lightTheme, darkTheme } from '../theme';
+import * as Clipboard from 'expo-clipboard';
+import { ToastAndroid, Platform } from 'react-native';
+
 
 export default function App() {
     const colorScheme = useColorScheme();
@@ -16,6 +19,15 @@ export default function App() {
     const [scanned, setScanned] = useState(true);
     const [scannedData, setScannedData] = useState({ type: null, data: null, date: null });
     const [firstTime, setFirstTime] = useState(true);
+
+    const copyToClipboard = async (data) => {
+        if (data) {
+            await Clipboard.setStringAsync(data);
+            if (Platform.OS === 'android') {
+                ToastAndroid.show('Copied!', ToastAndroid.SHORT);
+            }
+        }
+    };
 
     useEffect(() => {
         (async () => {
@@ -51,7 +63,7 @@ export default function App() {
             alert("Permission to access gallery is required!");
             return;
         }
-        
+
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: false,
@@ -110,7 +122,9 @@ export default function App() {
                                 </Text>
                             </TouchableOpacity>
                         ) : (
-                            <Text style={{ color: theme.text }}>{scannedData.data}</Text>
+                            <TouchableOpacity onPress={() => copyToClipboard(scannedData.data)}>
+                                <Text style={{ color: theme.text }}>{scannedData.data}</Text>
+                            </TouchableOpacity>
                         )}
                     </View>
                 </>
