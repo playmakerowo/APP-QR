@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Privacy Policy — QR Reader App</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0f0f0f;
+      --card: #181818;
+      --accent: #00e5a0;
+      --text: #e8e8e8;
+      --muted: #888;
+      --border: #2a2a2a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.8;
+      padding: 0 1rem;
+    }
+
+    header {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 4rem 0 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .meta {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 0 5rem;
+    }
+
+    section {
+      margin-bottom: 2.5rem;
+      padding: 1.75rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 4px;
+    }
+
+    h2 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+
+    p { font-size: 0.95rem; color: var(--text); margin-bottom: 0.75rem; }
+    p:last-child { margin-bottom: 0; }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 0.5rem;
+    }
+
+    ul li {
+      font-size: 0.95rem;
+      padding: 0.35rem 0 0.35rem 1.25rem;
+      position: relative;
+      color: var(--text);
+    }
+
+    ul li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 0.75rem;
+      top: 0.45rem;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    footer {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 2rem 0;
+      border-top: 1px solid var(--border);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <p class="label">Legal Document</p>
+  <h1>Privacy <span>Policy</span></h1>
+  <p class="meta">QR Reader App &nbsp;·&nbsp; Effective date: May 8, 2026</p>
+</header>
+
+<main>
+
+  <section>
+    <h2>Overview</h2>
+    <p>QR Reader App is a personal utility app for scanning, generating, and managing QR codes. This policy explains what data the app accesses and how it is handled.</p>
+    <p>The app does not collect, transmit, or share any personal data with third parties.</p>
+  </section>
+
+  <section>
+    <h2>Camera Access</h2>
+    <p>The app requests access to your device camera solely to scan QR codes and barcodes in real time. Camera data is processed locally on your device and is never stored, recorded, or transmitted externally.</p>
+  </section>
+
+  <section>
+    <h2>Gallery Access</h2>
+    <p>The app may request access to your photo gallery to allow scanning QR codes from existing images. Selected images are processed locally and immediately discarded after scanning. No images are saved or uploaded.</p>
+  </section>
+
+  <section>
+    <h2>Local Storage</h2>
+    <p>Scanned QR code data (text and timestamp) is saved locally on your device using AsyncStorage. This data:</p>
+    <ul>
+      <li>Never leaves your device</li>
+      <li>Is not synced to any server or cloud service</li>
+      <li>Can be deleted at any time from within the app</li>
+      <li>Is permanently removed when the app is uninstalled</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>No Data Collection</h2>
+    <p>QR Reader App does not collect, store, or transmit any of the following:</p>
+    <ul>
+      <li>Personal identification information</li>
+      <li>Location data</li>
+      <li>Device identifiers</li>
+      <li>Analytics or usage statistics</li>
+      <li>Crash reports sent to external services</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Third-Party Services</h2>
+    <p>The app does not integrate any third-party analytics, advertising, or tracking SDKs. No data is shared with any external service.</p>
+  </section>
+
+  <section>
+    <h2>Children's Privacy</h2>
+    <p>This app does not knowingly collect any data from users of any age, including children under 13.</p>
+  </section>
+
+  <section>
+    <h2>Contact</h2>
+    <p>If you have any questions about this privacy policy, you can reach the developer at:</p>
+    <p><a href="https://github.com/playmakerowo/APP-QR">github.com/playmakerowo/APP-QR</a></p>
+  </section>
+
+</main>
+
+<footer>
+  <span>QR Reader App · Jorge Villagra</span>
+  <span>Last updated: May 2026</span>
+</footer>
+
+</body>
+</html>
