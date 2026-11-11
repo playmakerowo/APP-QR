@@ -162,14 +162,14 @@ const History = () => {
                         <View key={key} style={[styles.dataContainer, { backgroundColor: theme.card, borderColor: theme.border }]}>
                             {wifi ? (
                                 <View style={[styles.wifiContainer, { backgroundColor: theme.wifiCard }]}>
-                                    <Text style={[styles.wifiTitle, { color: theme.wifiText }]}>📶 Red WiFi detectada</Text>
-                                    <Text style={{ color: theme.text }}>Red: <Text style={styles.bold}>{wifi.ssid}</Text></Text>
-                                    <Text style={{ color: theme.text }}>Contraseña: <Text style={styles.bold}>{wifi.password}</Text></Text>
+                                    <Text style={[styles.wifiTitle, { color: theme.wifiText }]}>📶 WiFi Network</Text>
+                                    <Text style={{ color: theme.text }}>Name: <Text style={styles.bold}>{wifi.ssid}</Text></Text>
+                                    <Text style={{ color: theme.text }}>Password: <Text style={styles.bold}>{wifi.password}</Text></Text>
                                     <TouchableOpacity
                                         style={styles.copyButton}
                                         onPress={() => copyToClipboard(wifi.password)}
                                     >
-                                        <Text style={styles.copyButtonText}>Copiar contraseña</Text>
+                                        <Text style={styles.copyButtonText}>Copy Password</Text>
                                     </TouchableOpacity>
                                 </View>
                             ) : isUrl(data.data) ? (
